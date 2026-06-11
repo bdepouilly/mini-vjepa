@@ -1,0 +1,52 @@
+# Mini V-JEPA — ViT-S, single-GPU config
+# Sized for one A100 (40GB) or a 24GB consumer card with reduced batch.
+
+experiment:
+  name: mini_vjepa_vits
+  seed: 0
+  output_dir: checkpoints/
+
+data:
+  dataset: ssv2            # ssv2 | kinetics | ucf101
+  index_file: data/ssv2_index.json
+  num_frames: 16
+  frame_stride: 4
+  resolution: 112          # bump to 128 if memory allows
+  num_workers: 8
+
+model:
+  encoder:
+    arch: vit_small
+    patch_size: 16
+    tubelet_size: 2
+    embed_dim: 384
+    depth: 12
+    num_heads: 6
+  predictor:
+    embed_dim: 192         # narrow predictor
+    depth: 6
+    num_heads: 6
+  ema:
+    base_momentum: 0.996
+    final_momentum: 1.0
+
+masking:
+  strategy: multiblock     # contiguous spatiotemporal tubes
+  num_blocks: 8
+  mask_ratio: 0.75
+
+optim:
+  optimizer: adamw
+  lr: 1.5e-4
+  weight_decay: 0.04
+  warmup_epochs: 10
+  epochs: 100
+  batch_size: 32           # per-GPU; use grad_accum to raise effective batch
+  grad_accum_steps: 4
+  precision: bf16          # bf16 | fp16
+  loss: smooth_l1
+
+logging:
+  log_every: 50
+  ckpt_every_epochs: 5
+  tensorboard: true

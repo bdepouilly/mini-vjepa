@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Data & checkpoints
+data/
+datasets/
+*.mp4
+*.avi
+*.webm
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+
+# Logs
+runs/
+wandb/
+logs/
+*.log
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
