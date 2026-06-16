@@ -10,8 +10,8 @@ def multiblock_mask(grid, mask_ratio=0.75, min_block=2, max_block=4, generator=N
     while (spat_mask.float().mean() < mask_ratio):
         bh = torch.randint(low=min_block, high=max_block+1, size=(1,), generator=generator)
         bw = torch.randint(low=min_block, high=max_block+1, size=(1,), generator=generator)
-        top_left_corner_h = random.randint(0, h - bh)
-        top_left_corner_w = random.randint(0, w - bw)
+        top_left_corner_h = torch.randint(0, h - bh + 1, (1,), generator=generator)
+        top_left_corner_w = torch.randint(0, w - bw + 1, (1,), generator=generator)
         spat_mask[top_left_corner_h:top_left_corner_h+bh,
                   top_left_corner_w:top_left_corner_w+bw] = True
     temp_spat_mask = einops.repeat(spat_mask, 'h w -> (t h w)', t=t)
