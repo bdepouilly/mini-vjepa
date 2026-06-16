@@ -6,9 +6,9 @@ __pycache__/
 .venv/
 venv/
 
-# Data & checkpoints
-data/
-datasets/
+# Data & checkpoints (anchored to repo root so src/data/ is NOT ignored)
+/data/
+/datasets/
 *.mp4
 *.avi
 *.webm
